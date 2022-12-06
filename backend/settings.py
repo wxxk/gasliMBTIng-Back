@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     # APP 등록
     'accounts',
     'community',
-    
+    'MBTI',
     # restframework 등록
     'rest_framework',
 
