@@ -10,8 +10,6 @@ from django.contrib.auth.models import update_last_login
 
 from accounts.serializers import UserSerializer
 
-from rest_framework.authtoken.models import Token
-
 
 
 @api_view(['POST'])
@@ -30,8 +28,6 @@ def signup(request):
         user.set_password(password)
         user.save()
 
-    # token = Token.objects.create(user)
-    # return Response({"Token": token.key})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -49,9 +45,10 @@ def login(request):
     if user is None:
         return Response({'message': '아이디 또는 비밀번호가 일치하지 않습니다.'}, status=status.HTTP_401_UNAUTHORIZED)
 
-    print(username,password)
     refresh = RefreshToken.for_user(user)
     update_last_login(None, user)
+
+    print(user, password)
 
     return Response({'refresh_token': str(refresh),
                      'access_token': str(refresh.access_token), }, status=status.HTTP_200_OK)

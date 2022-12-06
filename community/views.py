@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Community, Comment, Photo
+from .models import Community, Comment
 from .serializers import CommunitySerializer, CommentSerializer, RecommentSerializer
 
 from rest_framework.response import Response
@@ -22,18 +22,9 @@ def community_create(request):
 
     if serializer.is_valid(raise_exception=True):
         serializer.validated_data['user'] = request.user
-        print(serializer.validated_data['user'])
+        # serializer.validated_data['category'] = request.data
+        # serializer.validated_data['MBTI'] = request.data
         serializer.save()
-
-        for img in request.FILES.getlist("imgs"):
-                # Photo 객체를 하나 생성한다.
-                photo = Photo()
-                # 외래키로 현재 생성한 community 글의 기본키를 참조한다.
-                photo.community = serializer
-                # imgs로부터 가져온 이미지 파일 하나를 저장한다.
-                photo.image = img
-                # 데이터베이스에 저장
-                photo.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # 글 상세 내용 확인 - 로그인 필요
@@ -46,20 +37,7 @@ def community_detail(request, pk):
 
     serializer = CommunitySerializer(community)
     return Response(serializer.data)
-
-# 좋아요
-def like(request, community_pk):
-    community = Community.objects.get(pk=community_pk)
-
-    if community.like.filter(pk=request.user.pk).exists():
-        community.like.remove(request.user)
-        is_likes = False
-    else:
-        community.like.add(request.user)
-        is_likes = True
-    data = {"is_likes": is_likes, "likes_count": community.like.count()}
-    return Response(data)
-
+    
 # 글 수정 - 로그인 필요
 @api_view(['PUT'])
 def community_update(request, pk):
