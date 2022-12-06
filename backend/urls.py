@@ -19,7 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('community/', include('community.urls')),
-    path('api/user/', include('accounts.urls')),
-    path('MBTI/', include('MBTI.urls'))
-    path('api-auth/', include('rest_framework.urls')),
+    path('MBTI/', include('MBTI.urls')),
+    path('api/v1/', include('djoser.urls')),
+    path('api/v1/', include('djoser.urls.authtoken')),
 ]
