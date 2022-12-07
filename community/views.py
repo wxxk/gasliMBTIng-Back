@@ -17,6 +17,7 @@ def community_list(request):
 
 # 글 생성 - 로그인 필요
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def community_create(request):
     serializer = CommunitySerializer(data=request.data)
 
