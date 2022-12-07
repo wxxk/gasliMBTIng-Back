@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "accounts",
     "community",
     "MBTI",
+    "friends",
 ]
 
 MIDDLEWARE = [
