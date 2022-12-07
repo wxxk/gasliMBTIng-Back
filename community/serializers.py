@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from .models import Community, Comment, Photo
+from accounts.serializers import UserSerializer
 
 
 class CommunitySerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source="user.username")
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Community
@@ -11,7 +12,7 @@ class CommunitySerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "like",
-            "user",
+            # "user",
         )
         fields = (
             "id",
