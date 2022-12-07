@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "djoser",
     # APP 등록
+    "accounts",
     "community",
     "MBTI",
 ]
@@ -145,6 +146,15 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Image 업로드
+# # Image 업로드
+# MEDIA_URL = "/media/"
 
-MEDIA_URL = "/media/"
+# 커스텀 유저모델
+AUTH_USER_MODEL = "accounts.User"
+
+DJOSER = {
+    'SERIALIZERS': {
+         'user_create': 'accounts.serializers.UserSerializer',
+         'user': 'accounts.serializers.UserSerializer',
+    }
+}

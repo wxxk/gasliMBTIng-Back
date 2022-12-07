@@ -9,7 +9,7 @@ class Community(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
-    MBTI = models.CharField(max_length=10)
+    mbti = models.CharField(max_length=10)
     like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_article")
 
 class Comment(models.Model):
