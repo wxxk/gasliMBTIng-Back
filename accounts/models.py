@@ -32,4 +32,4 @@ class User(AbstractUser):
     mbti4 = models.CharField(max_length=25, choices=CHOICES_mbti4, default=P)
 
     age = models.IntegerField(null=True)
-    image = models.ImageField(null=True, upload_to="%Y/%m/%d")
+    # image = models.ImageField(null=True, upload_to="%Y/%m/%d")

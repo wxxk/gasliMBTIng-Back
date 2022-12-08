@@ -22,7 +22,13 @@ class Mbti(models.Model):
         ('ENTJ', 'ENTJ'),
     }
 
-    board = models.IntegerField()
+    BOARD_CHOICES = {
+        ('상대법', '상대법'),
+        ('주의할 점', '주의할 점'),
+        ('특징', '특징'),
+    }
+
+    board = models.CharField(max_length=50, choices=BOARD_CHOICES, null=False)
     mbti = models.CharField(max_length=50, choices=MBTI_CHOICES, null=False)
     title = models.CharField(max_length=200)
     content= models.TextField()
