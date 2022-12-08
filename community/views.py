@@ -23,7 +23,6 @@ def community_create(request):
 
     if serializer.is_valid(raise_exception=True):
         serializer.validated_data['user'] = request.user
-        # serializer.created_by=request.user
         serializer.save()
 
         for img in request.FILES.getlist("imgs"):
@@ -66,20 +65,24 @@ def like(request, community_pk):
 @api_view(['PUT'])
 def community_update(request, pk):
     community = Community.objects.get(pk=pk)
-    serializer = CommunitySerializer(community, request.data)
+    if community.user == request.user:
+        serializer = CommunitySerializer(community, request.data)
 
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # 글 삭제 - 로그인 필요
 @api_view(['DELETE'])
 def community_delete(request, pk):
     community = Community.objects.get(pk=pk)
-    
-    community.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+
+    if community.user == request.user:
+        community = Community.objects.get(pk=pk)
+        
+        community.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # (테스트 확인용) 댓글, 대댓글 목록 확인하기 - 로그인 필요
