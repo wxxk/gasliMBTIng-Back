@@ -22,8 +22,8 @@ def community_create(request):
     serializer = CommunitySerializer(data=request.data)
 
     if serializer.is_valid(raise_exception=True):
-        # serializer.validated_data['user'] = request.user
-        serializer.created_by=request.user
+        serializer.validated_data['user'] = request.user
+        # serializer.created_by=request.user
         serializer.save()
 
         for img in request.FILES.getlist("imgs"):
