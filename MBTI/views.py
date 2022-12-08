@@ -9,24 +9,22 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 @permission_classes([AllowAny])
 def mbti_list(request):
-    mbti = Mbti.objects.all()
-    serializer = MbtiSerializer(mbti, many=True)
+    if request.method == "GET":
+        mbti = Mbti.objects.all()
+        serializer = MbtiSerializer(mbti, many=True)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
+    elif request.method == "POST":
+        data = JSONParser().parse(request)
+        serializer = MbtiSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-@api_view(["POST"])
-@permission_classes([AllowAny])
-def mbti_create(request):
-    data = JSONParser().parse(request)
-    serializer = MbtiSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-    JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET", "PUT", "DELETE"])
