@@ -12,7 +12,7 @@ class CommunitySerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "like",
-            "user",
+            # "user",
         )
         fields = (
             "id",

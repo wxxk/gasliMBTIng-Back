@@ -23,7 +23,7 @@ def community_create(request):
 
     if serializer.is_valid(raise_exception=True):
         serializer.validated_data['user'] = request.user
-        print(serializer.validated_data['user'])
+        # serializer.created_by=request.user
         serializer.save()
 
         for img in request.FILES.getlist("imgs"):
@@ -35,6 +35,7 @@ def community_create(request):
                 photo.image = img
                 # 데이터베이스에 저장
                 photo.save()
+        print(serializer.data, type(serializer.data))
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # 글 상세 내용 확인 - 로그인 필요
