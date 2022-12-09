@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Community, Comment, Photo
+from .models import Community, Comment
 from accounts.serializers import UserSerializer
 
 
@@ -24,6 +24,7 @@ class CommunitySerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "like",
+            "image",
         )
 
 
