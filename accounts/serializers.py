@@ -15,7 +15,6 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "password",
             "nickname",
-            "image",
             "age",
             "gender",
             "mbti1",
