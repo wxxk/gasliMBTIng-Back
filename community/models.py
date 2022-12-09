@@ -16,6 +16,7 @@ class Community(models.Model):
     )
     mbti = models.CharField(max_length=10)
     like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_article")
+    image = models.ImageField(upload_to="images/", blank=True, null=True)
 
 
 class Comment(models.Model):
@@ -28,11 +29,3 @@ class Comment(models.Model):
     parent_comment = models.ForeignKey(
         "self", on_delete=models.CASCADE, related_name="recomment", null=True
     )
-
-
-class Photo(models.Model):
-    community = models.ForeignKey(Community, on_delete=models.CASCADE, null=True)
-    image = models.ImageField(upload_to="images/", blank=True, null=True)
-
-    class Meta:
-        db_table = "community_image"

@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from .models import Community, Comment, Photo
+from .models import Community, Comment
 from .serializers import CommunitySerializer, CommentSerializer, RecommentSerializer
 
 from rest_framework.response import Response
@@ -23,18 +22,11 @@ def community_create(request):
 
     if serializer.is_valid(raise_exception=True):
         serializer.validated_data['user'] = request.user
+        print(serializer.validated_data['title'])
+        print(serializer.validated_data['content'])
+        print(serializer.validated_data['image'])
         serializer.save()
-
-        for img in request.FILES.getlist("imgs"):
-                # Photo 객체를 하나 생성한다.
-                photo = Photo()
-                # 외래키로 현재 생성한 community 글의 기본키를 참조한다.
-                photo.community = serializer
-                # imgs로부터 가져온 이미지 파일 하나를 저장한다.
-                photo.image = img
-                # 데이터베이스에 저장
-                photo.save()
-        print(serializer.data, type(serializer.data))
+        
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # 글 상세 내용 확인 - 로그인 필요
