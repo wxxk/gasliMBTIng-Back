@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import Friend
-from .serializers import FriendSerializer
+from .models import Friend, Group
+from .serializers import FriendSerializer, GroupSerializer
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -71,4 +71,30 @@ def friends_update(request, pk):
 def friends_delete(request, pk):
     friend = Friend.objects.get(pk=pk)
     friend.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+# 그룹 조회 - 로그인 필요
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def groups_list(request):
+    groups = Group.objects.filter(user=request.user)
+    serializer = GroupSerializer(groups, many=True)
+    return Response(serializer.data)
+
+# 그룹 생성 - 로그인 필요
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def groups_create(request):
+    serializer = GroupSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.validated_data['user'] = request.user
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# 그룹 삭제 - 로그인 필요
+@api_view(['DELETE'])
+@permission_classes([AllowAny])
+def groups_delete(request, pk):
+    group = Group.objects.get(pk=pk)
+    group.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
