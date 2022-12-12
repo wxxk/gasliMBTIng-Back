@@ -24,7 +24,10 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     article = models.ForeignKey(Community, on_delete=models.CASCADE, default="")
     comment_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=""
+        settings.AUTH_USER_MODEL,
+        related_name="addedcomment",
+        on_delete=models.CASCADE,
+        default="",
     )
     parent_comment = models.ForeignKey(
         "self", on_delete=models.CASCADE, related_name="recomment", null=True

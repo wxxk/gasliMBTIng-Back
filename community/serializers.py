@@ -12,6 +12,7 @@ class CommunitySerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "like",
+            "comments",
             # "user",
         )
         fields = (
@@ -29,9 +30,17 @@ class CommunitySerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Comment
-        fields = "__all__"
+        read_only_fields = ("created_at",)
+        fields = (
+            "id",
+            "community",
+            "content",
+            "comment_user",
+        )
 
 
 class RecommentSerializer(serializers.ModelSerializer):
