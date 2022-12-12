@@ -23,10 +23,19 @@ def user_edit(request):
 
     if account_user.username == str(request.user):
         serializer = UserSerializer(account_user, data=request.data, partial=True)
-        print(serializer)
 
         if serializer.is_valid():
-            print("유효성검사")
             serializer.save()
             return Response(serializer.data)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+# 회원 탈퇴
+@api_view(['DELETE'])
+def user_delete(request):
+    print("테스트")
+    account_user = User.objects.get(pk=request.user.pk)
+
+    if account_user.username == str(request.user):
+        account_user = User.objects.get(pk=request.user.pk)
+        account_user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
