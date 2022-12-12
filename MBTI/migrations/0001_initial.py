@@ -15,6 +15,7 @@ class Migration(migrations.Migration):
             name='Mbti',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+
                 ('board', models.CharField(choices=[('상대법', '상대법'), ('특징', '특징'), ('주의할 점', '주의할 점')], max_length=50)),
                 ('mbti', models.CharField(choices=[('INFP', 'INFP'), ('ENFP', 'ENFP'), ('ESFJ', 'ESFJ'), ('ISPT', 'ISTP'), ('ESTP', 'ESTP'), ('ISFJ', 'ISFJ'), ('INFJ', 'INFJ'), ('ESTJ', 'ESTJ'), ('ISTJ', 'ISTJ'), ('ENTP', 'ENTP'), ('INTP', 'INTP'), ('ISFP', 'ISFP'), ('ESFP', 'ESFP'), ('ENFJ', 'ENFJ'), ('ENTJ', 'ENTJ'), ('INTJ', 'INTJ')], max_length=50)),
                 ('title', models.CharField(max_length=200)),
