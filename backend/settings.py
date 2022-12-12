@@ -40,6 +40,7 @@ ALLOWED_HOSTS = [
     "gasli-mbt-ing-front.vercel.app",
     "gaslimbting.ga",
     "gaslimbting.xyz",
+    "www.gaslimbting.xyz",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -48,6 +49,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://gasli-mbt-ing-front.vercel.app",
     "https://gaslimbting.ga",
     "https://gaslimbting.xyz",
+    "https://www.gaslimbting.xyz",
 ]
 
 REST_FRAMEWORK = {
