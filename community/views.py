@@ -7,30 +7,32 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 # 글 목록 조회 - 로그인 없이 조회 가능
-@api_view(['GET'])
+@api_view(["GET"])
 @permission_classes([AllowAny])
 def community_list(request):
     community = Community.objects.all()
     serializer = CommunitySerializer(community, many=True)
     return Response(serializer.data)
 
+
 # 글 생성 - 로그인 필요
-@api_view(['POST'])
+@api_view(["POST"])
 @permission_classes([AllowAny])
 def community_create(request):
     serializer = CommunitySerializer(data=request.data)
 
     if serializer.is_valid(raise_exception=True):
-        serializer.validated_data['user'] = request.user
-        print(serializer.validated_data['title'])
-        print(serializer.validated_data['content'])
-        print(serializer.validated_data['image'])
+        serializer.validated_data["user"] = request.user
+        print(serializer.validated_data["title"])
+        print(serializer.validated_data["content"])
+        print(serializer.validated_data["image"])
         serializer.save()
-        
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 # 글 상세 내용 확인 - 로그인 필요
-@api_view(['GET'])
+@api_view(["GET"])
 def community_detail(request, pk):
     try:
         community = Community.objects.get(pk=pk)
@@ -39,6 +41,7 @@ def community_detail(request, pk):
 
     serializer = CommunitySerializer(community)
     return Response(serializer.data)
+
 
 # 좋아요
 def like(request, community_pk):
@@ -53,8 +56,9 @@ def like(request, community_pk):
     data = {"is_likes": is_likes, "likes_count": community.like.count()}
     return Response(data)
 
+
 # 글 수정 - 로그인 필요
-@api_view(['PUT'])
+@api_view(["PUT"])
 def community_update(request, pk):
     community = Community.objects.get(pk=pk)
     if community.user == request.user:
@@ -67,53 +71,57 @@ def community_update(request, pk):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 # 글 삭제 - 로그인 필요
-@api_view(['DELETE'])
+@api_view(["DELETE"])
 def community_delete(request, pk):
     community = Community.objects.get(pk=pk)
 
     if community.user == request.user:
         community = Community.objects.get(pk=pk)
-        
+
         community.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # (테스트 확인용) 댓글, 대댓글 목록 확인하기 - 로그인 필요
-@api_view(['GET'])
-def comment_list(request):
-    comment = Comment.objects.all()
-    serializer = CommentSerializer(comment, many=True)
+@api_view(["GET"])
+def comment_list(request, community_pk):
+    comments = Comment.objects.filter(article=community_pk)
+    serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 
+
 # 댓글 작성하기 - 로그인 필요
-@api_view(['POST'])
+@api_view(["POST"])
 def comment_create(request, community_pk):
     community = Community.objects.get(pk=community_pk)
     serializer = CommentSerializer(data=request.data)
 
     if serializer.is_valid(raise_exception=True):
-        serializer.validated_data['article'] = community
-        serializer.validated_data['comment_user'] = request.user
+        serializer.validated_data["article"] = community
+        serializer.validated_data["comment_user"] = request.user
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 # (테스트 확인용) 대댓글 목록 확인하기 - 로그인 필요
-@api_view(['GET'])
+@api_view(["GET"])
 def recomment_list(request):
     recomment = Comment.objects.exclude(parent_comment_id=None)
     serializer = CommentSerializer(recomment, many=True)
     return Response(serializer.data)
 
+
 # 대댓글 작성하기 - 로그인 필요
-@api_view(['POST'])
+@api_view(["POST"])
 def recomment_create(request, community_pk, comment_pk):
     community = Community.objects.get(pk=community_pk)
     serializer = RecommentSerializer(data=request.data)
 
     if serializer.is_valid(raise_exception=True):
-        serializer.validated_data['article'] = community
-        serializer.validated_data['comment_user'] = request.user
-        serializer.validated_data['parent_comment_id'] = comment_pk
+        serializer.validated_data["article"] = community
+        serializer.validated_data["comment_user"] = request.user
+        serializer.validated_data["parent_comment_id"] = comment_pk
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
