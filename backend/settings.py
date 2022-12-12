@@ -225,4 +225,4 @@ else:
     AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
         AWS_STORAGE_BUCKET_NAME,
         AWS_REGION,
-    )
+    ) #
