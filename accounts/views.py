@@ -16,6 +16,17 @@ def user_detail(request):
     serializer = UserSerializer(user)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+def profile(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+
 # 회원정보 수정
 @api_view(['PUT'])
 def user_edit(request):
