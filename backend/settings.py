@@ -33,7 +33,7 @@ SECRET_KEY = "django-insecure-0q7kyom0le0(36na)5+w6l+g5(f%(dh_b7wjil7t*&=pcog5*#
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "Kdtdjangobean-env.eba-fnipt7dd.ap-northeast-2.elasticbeanstalk.com",
+    "kdtdjangobean-env.eba-k9dknmz3.ap-northeast-2.elasticbeanstalk.com",
     "127.0.0.1",
     "localhost",
     # "http://localhost:8080",
