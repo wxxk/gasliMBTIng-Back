@@ -60,6 +60,8 @@ def community_update(request, pk):
     if community.user == request.user:
         serializer = CommunitySerializer(community, request.data)
 
+        print(serializer)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
