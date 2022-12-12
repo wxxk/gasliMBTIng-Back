@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 # import bcrypt
 
+
 class User(AbstractUser):
     nickname = models.CharField(max_length=30)
 
@@ -32,4 +33,4 @@ class User(AbstractUser):
     mbti4 = models.CharField(max_length=25, choices=CHOICES_mbti4, default=P)
 
     age = models.IntegerField(null=True)
-    image = models.ImageField(upload_to="account_images/", blank=True, null=True)
+    image = models.ImageField(upload_to="media/account_images/", blank=True, null=True)

@@ -16,7 +16,7 @@ class Community(models.Model):
     )
     mbti = models.CharField(max_length=10)
     like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_article")
-    image = models.ImageField(upload_to="images/", blank=True, null=True)
+    image = models.ImageField(upload_to="media/images/", blank=True, null=True)
 
 
 class Comment(models.Model):
