@@ -37,13 +37,17 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     # "http://localhost:8080",
-    "gasli-mbt-ing-front.vercel.app"
+    "gasli-mbt-ing-front.vercel.app",
+    "gaslimbting.ga",
+    "gaslimbting.xyz",
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "https://gasli-mbt-ing-front.vercel.app",
     "http://gasli-mbt-ing-front.vercel.app",
+    "https://gaslimbting.ga",
+    "https://gaslimbting.xyz",
 ]
 
 REST_FRAMEWORK = {
