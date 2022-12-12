@@ -41,6 +41,7 @@ ALLOWED_HOSTS = [
     "gasli-mbt-ing-front.vercel.app",
     "gaslimbting.ga",
     "gaslimbting.xyz",
+    "www.gaslimbting.xyz",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -79,6 +80,7 @@ INSTALLED_APPS = [
     "community",
     "MBTI",
     "friends",
+    "guestbook",
 ]
 
 MIDDLEWARE = [
@@ -180,17 +182,6 @@ DJOSER = {
     }
 }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "kdt_django_rds", # 코드 블럭 아래 이미지 참고하여 입력
-#         "USER": "postgres",
-#         "PASSWORD": "123456789", # 데이터베이스 생성 시 작성한 패스워드
-#         "HOST": "kdt-django-rds.cffdtcjisf6t.ap-northeast-2.rds.amazonaws.com", # 코드 블럭 아래 이미지 참고하여 입력
-#         "PORT": "5432",
-#     }
-# }
-
 DEBUG = os.getenv("DEBUG") == "True"
 
 if DEBUG == True:  # 개발(로컬) 환경
@@ -230,4 +221,4 @@ else:
     AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
         AWS_STORAGE_BUCKET_NAME,
         AWS_REGION,
-    )  #
+    )

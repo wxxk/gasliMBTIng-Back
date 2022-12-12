@@ -20,10 +20,11 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
     path('community/', include('community.urls')),
     path('MBTI/', include('MBTI.urls')),
     path('friends/', include('friends.urls')),
-    path('accounts/', include('accounts.urls')),
+    path('guestbook/', include('guestbook.urls')),
     path('api/v1/', include('djoser.urls')),
     path('api/v1/', include('djoser.urls.authtoken')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
