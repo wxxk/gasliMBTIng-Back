@@ -7,7 +7,6 @@ User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    # image = serializers.ImageField(use_url=True)
     
     class Meta:
         model = User
@@ -16,9 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "password",
             "nickname",
-            
-            # "image",
-
+            "image",
             "age",
             "gender",
             "mbti1",
