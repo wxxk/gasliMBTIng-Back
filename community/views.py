@@ -104,6 +104,15 @@ def comment_create(request, community_pk):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+@api_view(["DELETE"])
+def comment_delete(request, community_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    print(request.user.id)
+    print(comment.comment_user_id)
+
+    if comment.comment_user_id == request.user.id:
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 # (테스트 확인용) 대댓글 목록 확인하기 - 로그인 필요
 @api_view(["GET"])
