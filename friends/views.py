@@ -15,6 +15,13 @@ def friends_list(request):
     serializer = FriendSerializer(friends, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def friends_get(request, pk):
+    friends = Friend.objects.filter(user=pk)
+    serializer = FriendSerializer(friends, many=True)
+    return Response(serializer.data)
+
 # 친구 목록 필터 - 로그인 필요
 # @api_view(['GET'])
 # @permission_classes([IsAuthenticated])

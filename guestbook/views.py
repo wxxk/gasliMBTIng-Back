@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Guestbook
+from accounts.models import User
 from .serializers import GuestbookSerializer
+from accounts.serializers import UserSerializer
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,8 +12,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 # 방명록 목록 조회
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def guestbook_list(request):
-    guestbooks = Guestbook.objects.all()
+def guestbook_list(request, pk):
+    guestbooks = Guestbook.objects.filter(receive_user=pk)
     serializer = GuestbookSerializer(guestbooks, many=True)
     return Response(serializer.data)
 
@@ -31,6 +33,8 @@ def guestbook_create(request):
     print(request.data)
     serializer = GuestbookSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
+        user = User.objects.get(pk=int(request.data['receive_user_id']))
+        serializer.validated_data['receive_user'] = user
         serializer.save()
         guestbook = Guestbook.objects.order_by('-pk')[0]
         print(guestbook)
@@ -41,8 +45,11 @@ def guestbook_create(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def guestbook_detail(request, pk):
+    print(pk)
     try:
         guestbook = Guestbook.objects.get(pk=pk)
+        print(pk)
+        print(guestbook)
     except Guestbook.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -67,3 +74,10 @@ def guestbook_delete(request, pk):
     guestbook = Guestbook.objects.get(pk=pk)
     guestbook.delete()
     return Response(status=status.HTTP_204_NO_CONTENT) 
+
+@api_view(['GET'])
+def guestbook_get(request,pk):
+    user = User.objects.get(pk=pk)
+    serializer =UserSerializer(user)
+    return Response(serializer.data)
+    
