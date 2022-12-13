@@ -182,6 +182,7 @@ DJOSER = {
     }
 }
 
+
 DEBUG = os.getenv("DEBUG") == "True"
 
 if DEBUG == True:  # 개발(로컬) 환경
@@ -206,6 +207,7 @@ else:  # 배포(원격, 클라우드) 환경
 
 DEBUG = os.getenv("DEBUG") == "True"
 
+
 if DEBUG:
     MEDIA_URL = ""
     MEDIA_ROOT = BASE_DIR / ""
@@ -222,3 +224,5 @@ else:
         AWS_STORAGE_BUCKET_NAME,
         AWS_REGION,
     )
+
+

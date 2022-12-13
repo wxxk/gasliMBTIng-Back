@@ -29,6 +29,8 @@ class Mbti(models.Model):
     }
 
     board = models.CharField(max_length=50, choices=BOARD_CHOICES, null=False)
+    character = models.CharField(max_length=50, null=False)
+    summary = models.CharField(max_length=200, null=False)
     mbti = models.CharField(max_length=50, choices=MBTI_CHOICES, null=False)
     title = models.CharField(max_length=200)
-    content= models.TextField()
+    content = models.TextField()
