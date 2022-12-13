@@ -22,7 +22,9 @@ class Community(models.Model):
 class Comment(models.Model):
     content = models.CharField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
-    article = models.ForeignKey(Community, on_delete=models.CASCADE, default="")
+    article = models.ForeignKey(
+        Community, related_name="comments", on_delete=models.CASCADE, default=""
+    )
     comment_user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="addedcomment",

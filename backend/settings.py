@@ -15,13 +15,14 @@ from datetime import timedelta
 
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 이미지 media
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -40,6 +41,7 @@ ALLOWED_HOSTS = [
     "gasli-mbt-ing-front.vercel.app",
     "gaslimbting.ga",
     "gaslimbting.xyz",
+    "www.gaslimbting.xyz",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -47,7 +49,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://gasli-mbt-ing-front.vercel.app",
     "http://gasli-mbt-ing-front.vercel.app",
     "https://gaslimbting.ga",
-    "https://gaslimbting.xyz",
+    "https://www.gaslimbting.xyz",
 ]
 
 REST_FRAMEWORK = {
@@ -174,60 +176,49 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.User"
 
 DJOSER = {
-    'SERIALIZERS': {
-        'user_create': 'accounts.serializers.UserSerializer',
-        'user': 'accounts.serializers.UserSerializer',
+    "SERIALIZERS": {
+        "user_create": "accounts.serializers.UserSerializer",
+        "user": "accounts.serializers.UserSerializer",
     }
 }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "kdt_django_rds", # 코드 블럭 아래 이미지 참고하여 입력
-#         "USER": "postgres",
-#         "PASSWORD": "123456789", # 데이터베이스 생성 시 작성한 패스워드
-#         "HOST": "kdt-django-rds.cffdtcjisf6t.ap-northeast-2.rds.amazonaws.com", # 코드 블럭 아래 이미지 참고하여 입력
-#         "PORT": "5432",
-#     }
-# }
+DEBUG = os.getenv("DEBUG") == "True"
 
-# DEBUG = os.getenv("DEBUG") == "True"
-
-# if DEBUG == True: # 개발(로컬) 환경
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
-
-# else: # 배포(원격, 클라우드) 환경
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DATABASE_NAME"), # .env 파일에 value 작성
-        "USER": "postgres",
-        "PASSWORD": os.getenv("DATABASE_PASSWORD"), # .env 파일에 value 작성
-        "HOST": os.getenv("DATABASE_HOST"), # .env 파일에 value 작성
-        "PORT": "5432",
+if DEBUG == True:  # 개발(로컬) 환경
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
-# DEBUG = os.getenv("DEBUG") == "True"
+else:  # 배포(원격, 클라우드) 환경
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("DATABASE_NAME"),  # .env 파일에 value 작성
+            "USER": "postgres",
+            "PASSWORD": os.getenv("DATABASE_PASSWORD"),  # .env 파일에 value 작성
+            "HOST": os.getenv("DATABASE_HOST"),  # .env 파일에 value 작성
+            "PORT": "5432",
+        }
+    }
 
-# if DEBUG: 
-#     MEDIA_URL = ""
-#     MEDIA_ROOT = BASE_DIR / ""
+DEBUG = os.getenv("DEBUG") == "True"
 
-# else: 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+if DEBUG:
+    MEDIA_URL = ""
+    MEDIA_ROOT = BASE_DIR / ""
 
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+else:
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-AWS_REGION = "ap-northeast-2"
-AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
-    AWS_STORAGE_BUCKET_NAME,
-    AWS_REGION,
-)
+    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+
+    AWS_REGION = "ap-northeast-2"
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
+        AWS_STORAGE_BUCKET_NAME,
+        AWS_REGION,
+    )
