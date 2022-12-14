@@ -19,4 +19,6 @@ urlpatterns = [
         "<int:community_pk>/comment/<int:comment_pk>/recomment/create/",
         views.recomment_create,
     ),
+    path(
+        "filter/<str:data>/", views.community_filter),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

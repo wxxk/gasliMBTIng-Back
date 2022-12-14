@@ -134,3 +134,31 @@ def recomment_create(request, community_pk, comment_pk):
         serializer.validated_data["parent_comment_id"] = comment_pk
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# community 필터결과 보여주기
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def community_filter(request,data):
+    data=data.split('&')
+    if data[0]=='free':
+        data[0] = '자유'
+    elif data[0]=='counsel':
+        data[0] = '상담'
+    elif data[0] =='discussion':
+        data[0] = '토론'
+    elif data[0] =='question':
+        data[0] = '질문'
+
+    category = data[0]
+    mbti = data[1]
+
+    if data[0]=='all' and data[1]=='all':
+        community = Community.objects.all()
+    elif data[0]=='all':
+        community = Community.objects.filter(mbti=mbti)
+    elif data[1]=='all':
+        community = Community.objects.filter(category=category)
+    else:
+        community = Community.objects.filter(category=category, mbti=mbti)
+    serializer = CommunitySerializer(community, many=True)
+    return Response(serializer.data)
