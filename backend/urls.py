@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('community/', include('community.urls')),
-    path('MBTI/', include('MBTI.urls')),
+    path('mbti/', include('mbti.urls')),
     path('friends/', include('friends.urls')),
     path('guestbook/', include('guestbook.urls')),
     path('api/v1/', include('djoser.urls')),
