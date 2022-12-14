@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 @permission_classes([AllowAny])
 def mbti_list(request):
     if request.method == "GET":
@@ -18,14 +18,14 @@ def mbti_list(request):
 
         return Response(serializer.data)
 
-    # elif request.method == "POST":
-    #     serializer = MbtiSerializer(data=request.data)
+    elif request.method == "POST":
+        serializer = MbtiSerializer(data=request.data)
 
-    #     if serializer.is_valid(raise_exception=True):
-    #         serializer.save()
-    #         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
 
-    #     JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
