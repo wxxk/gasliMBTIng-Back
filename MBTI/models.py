@@ -17,7 +17,7 @@ class Mbti(models.Model):
         ('ESTJ', 'ESTJ'),
         ('ISTJ', 'ISTJ'),
         ('INTJ', 'INTJ'),
-        ('ISPT', 'ISTP'),
+        ('ISTP', 'ISTP'),
         ('ESTP', 'ESTP'),
         ('ENTJ', 'ENTJ'),
     }
