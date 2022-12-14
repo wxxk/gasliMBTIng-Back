@@ -43,12 +43,9 @@ def user_edit(request):
 # 회원 탈퇴
 @api_view(['DELETE'])
 def user_delete(request):
-    print("테스트")
     account_user = User.objects.get(pk=request.user.pk)
 
     if account_user.username == str(request.user):
-        print(account_user.username)
-        print(request.user)
         account_user = User.objects.get(pk=request.user.pk)
         account_user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
