@@ -32,15 +32,13 @@ def guestbook_list(request, pk):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def guestbook_create(request):
-    print(request.user)
-    print(request.data)
+
     serializer = GuestbookSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         user = User.objects.get(pk=int(request.data["receive_user_id"]))
         serializer.validated_data["receive_user"] = user
         serializer.save()
         guestbook = Guestbook.objects.order_by("-pk")[0]
-        print(guestbook)
         return_serializer = GuestbookSerializer(guestbook)
         return Response(return_serializer.data, status=status.HTTP_201_CREATED)
 
@@ -49,11 +47,8 @@ def guestbook_create(request):
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def guestbook_detail(request, pk):
-    print(pk)
     try:
         guestbook = Guestbook.objects.get(pk=pk)
-        print(pk)
-        print(guestbook)
     except Guestbook.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
