@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Community, Comment
+from .models import Community, Comment, Notification
 from accounts.serializers import UserSerializer
 
 
@@ -40,4 +40,15 @@ class CommentSerializer(serializers.ModelSerializer):
 class RecommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
+        fields = "__all__"
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    community = CommunitySerializer(read_only=True)
+    comment = CommentSerializer(read_only=True)
+    send_user = UserSerializer(read_only=True)
+    receive_user = UserSerializer(read_only=True)
+    is_read = serializers.ReadOnlyField()
+    class Meta:
+        model = Notification
         fields = "__all__"

@@ -34,3 +34,10 @@ class Comment(models.Model):
     parent_comment = models.ForeignKey(
         "self", on_delete=models.CASCADE, related_name="recomment", null=True
     )
+
+class Notification(models.Model):
+    community = models.ForeignKey(Community, related_name="noti_community", on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, related_name="noti_comment", on_delete=models.CASCADE)
+    send_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="send_user")
+    receive_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="receive_user")
+    is_read = models.BooleanField(default=0)
