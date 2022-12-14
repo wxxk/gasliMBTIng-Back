@@ -78,9 +78,9 @@ INSTALLED_APPS = [
     # APP 등록
     "accounts",
     "community",
-    "MBTI",
     "friends",
     "guestbook",
+    "mbti",
 ]
 
 MIDDLEWARE = [
@@ -183,46 +183,46 @@ DJOSER = {
 }
 
 
-DEBUG = os.getenv("DEBUG") == "True"
+# DEBUG = os.getenv("DEBUG") == "True"
 
-if DEBUG == True:  # 개발(로컬) 환경
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+# if DEBUG == True:  # 개발(로컬) 환경
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.sqlite3",
+#             "NAME": BASE_DIR / "db.sqlite3",
+#         }
+#     }
+
+# else:  # 배포(원격, 클라우드) 환경
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DATABASE_NAME"),  # .env 파일에 value 작성
+        "USER": "postgres",
+        "PASSWORD": os.getenv("DATABASE_PASSWORD"),  # .env 파일에 value 작성
+        "HOST": os.getenv("DATABASE_HOST"),  # .env 파일에 value 작성
+        "PORT": "5432",
     }
+}
 
-else:  # 배포(원격, 클라우드) 환경
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DATABASE_NAME"),  # .env 파일에 value 작성
-            "USER": "postgres",
-            "PASSWORD": os.getenv("DATABASE_PASSWORD"),  # .env 파일에 value 작성
-            "HOST": os.getenv("DATABASE_HOST"),  # .env 파일에 value 작성
-            "PORT": "5432",
-        }
-    }
-
-DEBUG = os.getenv("DEBUG") == "True"
+# DEBUG = os.getenv("DEBUG") == "True"
 
 
-if DEBUG:
-    MEDIA_URL = ""
-    MEDIA_ROOT = BASE_DIR / ""
+# if DEBUG:
+#     MEDIA_URL = ""
+#     MEDIA_ROOT = BASE_DIR / ""
 
-else:
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# else:
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-    AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
 
-    AWS_REGION = "ap-northeast-2"
-    AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
-        AWS_STORAGE_BUCKET_NAME,
-        AWS_REGION,
-    )
+AWS_REGION = "ap-northeast-2"
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
+    AWS_STORAGE_BUCKET_NAME,
+    AWS_REGION,
+)
 
 
