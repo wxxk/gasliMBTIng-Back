@@ -59,7 +59,7 @@ def like(request, community_pk):
 def community_update(request, pk):
     community = Community.objects.get(pk=pk)
     if community.user == request.user:
-        serializer = CommunitySerializer(community, request.data)
+        serializer = CommunitySerializer(community, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
