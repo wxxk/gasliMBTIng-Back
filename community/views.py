@@ -23,9 +23,6 @@ def community_create(request):
 
     if serializer.is_valid(raise_exception=True):
         serializer.validated_data["user"] = request.user
-        print(serializer.validated_data["title"])
-        print(serializer.validated_data["content"])
-        print(serializer.validated_data["image"])
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -63,9 +60,6 @@ def community_update(request, pk):
     community = Community.objects.get(pk=pk)
     if community.user == request.user:
         serializer = CommunitySerializer(community, request.data)
-
-        print(serializer)
-
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -107,8 +101,6 @@ def comment_create(request, community_pk):
 @api_view(["DELETE"])
 def comment_delete(request, community_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
-    print(request.user.id)
-    print(comment.comment_user_id)
 
     if comment.comment_user_id == request.user.id:
         comment.delete()
