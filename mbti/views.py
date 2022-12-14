@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET"])
 @permission_classes([AllowAny])
 def mbti_list(request):
     if request.method == "GET":
@@ -18,20 +18,20 @@ def mbti_list(request):
 
         return Response(serializer.data)
 
-    elif request.method == "POST":
-        serializer = MbtiSerializer(data=request.data)
+    # elif request.method == "POST":
+    #     serializer = MbtiSerializer(data=request.data)
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    #     if serializer.is_valid(raise_exception=True):
+    #         serializer.save()
+    #         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
 
-        JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+    #     JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
-@api_view(["GET", "PUT", "DELETE"])
+
+
+@api_view(["GET"])
 @permission_classes([AllowAny])
 def mbti_details(request, pk):
     try:
@@ -44,13 +44,13 @@ def mbti_details(request, pk):
         serializer = MbtiSerializer(mbti)
         return Response(serializer.data)
 
-    elif request.method == "PUT":
-        serializer = MbtiSerializer(mbti, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+    # elif request.method == "PUT":
+    #     serializer = MbtiSerializer(mbti, data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == "DELETE":
-        mbti.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # elif request.method == "DELETE":
+    #     mbti.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
