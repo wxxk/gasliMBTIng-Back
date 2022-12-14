@@ -1,5 +1,5 @@
-from .models import Community, Comment
-from .serializers import CommunitySerializer, CommentSerializer, RecommentSerializer
+from .models import Community, Comment, Notification
+from .serializers import CommunitySerializer, CommentSerializer, RecommentSerializer,NotificationSerializer
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -96,6 +96,13 @@ def comment_create(request, community_pk):
         serializer.validated_data["article"] = community
         serializer.validated_data["comment_user"] = request.user
         serializer.save()
+        new_comment = Comment.objects.all()[0]
+        Notification.objects.create(
+                send_user=request.user,
+                receive_user=community.user,
+                community=community,
+                comment=new_comment
+            )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(["DELETE"])
@@ -153,4 +160,33 @@ def community_filter(request,data):
     else:
         community = Community.objects.filter(category=category, mbti=mbti)
     serializer = CommunitySerializer(community, many=True)
+    return Response(serializer.data)
+
+# 알림 조회
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def notification_list(request):
+    print("들어왓다")
+    notifications = Notification.objects.filter(receive_user_id=request.user.pk, is_read=0)
+    serializer = NotificationSerializer(notifications, many=True)
+    return Response(serializer.data)
+
+# 알림 읽음처리
+@api_view(["PUT"])
+@permission_classes([AllowAny])
+def is_read(request, pk):
+    notification = Notification.objects.get(pk=pk)
+    notification.is_read = 1
+    notification.save()
+    serializer = NotificationSerializer(notification)
+    return Response(serializer.data)
+
+@api_view(["PUT"])
+@permission_classes([AllowAny])
+def all_read(request):
+    notifications = Notification.objects.filter(receive_user=request.user)
+    for notification in notifications:
+        notification.is_read = 1
+        notification.save()
+    serializer = NotificationSerializer(notifications)
     return Response(serializer.data)
