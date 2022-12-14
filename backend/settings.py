@@ -179,6 +179,7 @@ DJOSER = {
     "SERIALIZERS": {
         "user_create": "accounts.serializers.UserSerializer",
         "user": "accounts.serializers.UserSerializer",
+        "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": ['https://kauth.kakao.com/oauth/token'],
     }
 }
 
