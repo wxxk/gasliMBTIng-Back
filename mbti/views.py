@@ -17,13 +17,17 @@ def mbti_list(request):
         serializer = MbtiSerializer(mbti, many=True)
 
         return Response(serializer.data)
+
     elif request.method == "POST":
-        data = JSONParser().parse(request)
-        serializer = MbtiSerializer(data=data)
-        if serializer.is_valid():
+        serializer = MbtiSerializer(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+
         JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 

@@ -34,3 +34,4 @@ class Mbti(models.Model):
     mbti = models.CharField(max_length=50, choices=MBTI_CHOICES, null=False)
     title = models.CharField(max_length=200)
     content = models.TextField()
+    image = models.ImageField(upload_to="media/images/", blank=True, null=True)
