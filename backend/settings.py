@@ -78,9 +78,9 @@ INSTALLED_APPS = [
     # APP 등록
     "accounts",
     "community",
-    "MBTI",
     "friends",
     "guestbook",
+    "mbti",
 ]
 
 MIDDLEWARE = [
@@ -225,5 +225,3 @@ else:
         AWS_STORAGE_BUCKET_NAME,
         AWS_REGION,
     )
-
-
