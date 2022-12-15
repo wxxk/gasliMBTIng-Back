@@ -79,6 +79,6 @@ def guestbook_delete(request, pk):
 @api_view(["GET"])
 def guestbook_get(request, pk):
     user = User.objects.get(pk=pk)
-    friends = Friend.objects.filter(user=request.user)
+    friends = Friend.objects.filter(user=user)
     serializer = FriendSerializer(friends, many=True)
     return Response(serializer.data)
